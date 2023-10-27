@@ -13,8 +13,9 @@ import {
   Container,
   Group,
   Button,
-} from '@mantine/core';
-import classes from './Login.page.module.css';
+} from "@mantine/core";
+
+import classes from "./Login.page.module.css";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -35,29 +36,40 @@ const LoginPage = () => {
   };
   return (
     <Container size={420} my={40}>
-      <Title ta="center" className={classes.title}>
-        Welcome back!
-      </Title>
-      <Text c="dimmed" size="sm" ta="center" mt={5}>
-        Do not have an account yet?{' '}
-        <Anchor size="sm" component="button">
-          Create account
-        </Anchor>
-      </Text>
+      <form onSubmit={onLogin}>
+        <Title ta="center" className={classes.title}>
+          Welcome back!
+        </Title>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="you@email.com" required />
-        <PasswordInput label="Password" placeholder="Your password" required mt="md" />
-        <Group justify="space-between" mt="lg">
-          <Checkbox label="Remember me" />
-          <Anchor component="button" size="sm">
-            Forgot password?
-          </Anchor>
-        </Group>
-        <Button fullWidth mt="xl">
-          Sign in
-        </Button>
-      </Paper>
+        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+          <TextInput
+            label="Email"
+            placeholder="Your email"
+            name="email"
+            type="email"
+            required
+          />
+          <PasswordInput
+            label="Password"
+            placeholder="Your password"
+            name="password"
+            type="password"
+            required
+          />
+          <Group justify="space-between" mt="lg">
+            <Checkbox label="Remember me" />
+            <Anchor component="button" size="sm">
+              Forgot password?
+            </Anchor>
+          </Group>
+
+          <Button fullWidth mt="xl" type="submit">
+            Sign in
+          </Button>
+        </Paper>
+
+        {authLoading ? <h2>Loading...</h2> : null}
+      </form>
     </Container>
   );
 };

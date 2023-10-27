@@ -22,6 +22,7 @@ export default ({ children }) => {
       >
         <MantineProvider
           theme={{ colorScheme }}
+          withCSSVariables 
           withGlobalStyles
           withNormalizeCSS
         >
