@@ -76,3 +76,16 @@
   );
 }
 
+.logoLight {
+  color: var(--mantine-color-black) !important;
+  font-weight: 700 !important;
+  font-size: var(--mantine-font-size-xl);
+  text-decoration: none !important;
+}
+
+.logoDark {
+  color: var(--mantine-color-white) !important;
+  font-weight: 700 !important;
+  font-size: var(--mantine-font-size-xl);
+  text-decoration: none !important;
+}

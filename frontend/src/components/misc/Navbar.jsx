@@ -35,12 +35,93 @@ const Navbar = () => {
       }
     >
       <Container size="md" className={classes.inner}>
-        <NavLink to="/">
-          <MantineLogo size={30} />
+        <NavLink
+          to="/"
+          className={
+            colorScheme === "light" ? classes.logoLight : classes.logoDark
+          }
+        >
+          <Group gap={0}>
+            <img src="/thumblr.svg" width={30} height={30} />
+            thumblr.
+          </Group>
         </NavLink>
 
-        <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-          <Group gap={5}>
+        <Group gap={5}>
+          <MediaQuery smallerThan="xs" styles={{ display: "none" }}>
+            <Group>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? classes.active : classes.link
+                }
+              >
+                Home
+              </NavLink>
+
+              {!!user && (
+                <NavLink
+                  to="posts"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : classes.link
+                  }
+                >
+                  {" "}
+                  Posts
+                </NavLink>
+              )}
+
+              {!!user ? (
+                <NavLink className={classes.link} onClick={onLogout}>
+                  Logout
+                </NavLink>
+              ) : (
+                <NavLink
+                  to="login"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : classes.link
+                  }
+                >
+                  Login
+                </NavLink>
+              )}
+            </Group>
+          </MediaQuery>
+
+          <ActionIcon
+            onClick={() =>
+              setColorScheme(colorScheme === "light" ? "dark" : "light")
+            }
+            variant="default"
+            size="xl"
+            aria-label="Toggle color scheme"
+          >
+            {colorScheme === "light" ? (
+              <IconSun
+                className={cx(classes.icon, classes.light)}
+                stroke={1.5}
+              />
+            ) : (
+              <IconMoon
+                className={cx(classes.icon, classes.dark)}
+                stroke={1.5}
+              />
+            )}
+          </ActionIcon>
+
+          <MediaQuery largerThan="xs" styles={{ display: "none" }}>
+            <Burger opened={opened} onClick={toggle} />
+          </MediaQuery>
+        </Group>
+
+        <MediaQuery largerThan="xs" styles={{ display: "none" }}>
+          <Drawer
+            opened={opened}
+            onClose={toggle}
+            onClick={toggle}
+            position="right"
+            size={200}
+          >
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -64,8 +145,8 @@ const Navbar = () => {
 
             {!!user ? (
               <NavLink className={classes.link} onClick={onLogout}>
-              Logout
-            </NavLink>
+                Logout
+              </NavLink>
             ) : (
               <NavLink
                 to="login"
@@ -76,68 +157,8 @@ const Navbar = () => {
                 Login
               </NavLink>
             )}
-          </Group>
+          </Drawer>
         </MediaQuery>
-
-        <ActionIcon
-          onClick={() =>
-            setColorScheme(colorScheme === "light" ? "dark" : "light")
-          }
-          variant="default"
-          size="xl"
-          aria-label="Toggle color scheme"
-        >
-          {colorScheme === "light" ? (
-            <IconSun className={cx(classes.icon, classes.light)} stroke={1.5} />
-          ) : (
-            <IconMoon className={cx(classes.icon, classes.dark)} stroke={1.5} />
-          )}
-        </ActionIcon>
-        
-        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-        <Drawer opened={opened} onClose={toggle} position="right" size="150px">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? classes.active : classes.link
-            }
-          >
-            Home
-          </NavLink>
-
-          {!!user && (
-            <NavLink
-              to="posts"
-              className={({ isActive }) =>
-                isActive ? classes.active : classes.link
-              }
-            >
-              {" "}
-              Posts
-            </NavLink>
-          )}
-
-          {!!user ? (
-            <NavLink className={classes.link} onClick={onLogout}>
-              Logout
-            </NavLink>
-          ) : (
-            <NavLink
-              to="login"
-              className={({ isActive }) =>
-                isActive ? classes.active : classes.link
-              }
-            >
-              Login
-            </NavLink>
-          )}
-        </Drawer>
-        </MediaQuery>
-
-        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-          <Burger opened={opened} onClick={toggle} />
-        </MediaQuery>
-
       </Container>
     </header>
   );
