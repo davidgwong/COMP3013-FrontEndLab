@@ -44,16 +44,18 @@ app.post("/api/user/validation", (req, res) => {
 
 app.get("/api/posts", async (req, res) => {
   // Sleep delay goes here
-  sleep(2000).then(() => {
+  sleep(500).then(() => {
     return res.json(posts);
   });
 });
 
 // ⭐️ TODO: Implement this yourself
 app.get("/api/posts/:id", (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
+  console.log("Requested ID: " + id);
+  const post = posts.find((obj) => obj.id === id);
   // The line below should be fixed.
-  res.json(posts[0]);
+  return res.json(post);
 });
 
 /**
