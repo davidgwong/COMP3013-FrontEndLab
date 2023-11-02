@@ -52,9 +52,18 @@ app.get("/api/posts", async (req, res) => {
 // ⭐️ TODO: Implement this yourself
 app.get("/api/posts/:id", (req, res) => {
   const id = Number(req.params.id);
-  console.log("Requested ID: " + id);
   const post = posts.find((obj) => obj.id === id);
-  // The line below should be fixed.
+  if (post) {
+    const author = findUserById(post.userId).email.split("@")[0];
+    const output = {
+      author: author,
+      title: post.title,
+      category: post.category,
+      content: post.content,
+      image: post.image,
+    };
+    return res.json(output);
+  }
   return res.json(post);
 });
 

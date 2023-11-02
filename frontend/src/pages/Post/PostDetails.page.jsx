@@ -1,19 +1,34 @@
-import { Container } from "@mantine/core";
+import { Grid } from "@mantine/core";
 import DOMAIN from "../../services/endpoint";
-import { Await, defer, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import axios from "axios";
-import { Suspense } from "react";
-import { Loader } from "@mantine/core";
 
 function PostDetailsPage() {
   const postDetail = useLoaderData();
   return (
-    <Container>
-      <p>{postDetail.title}</p>
-      <p>{postDetail.category}</p>
-      <p>{postDetail.content}</p>
-      <img src={postDetail.image}></img>
-    </Container>
+    <Grid justify="center">
+      <Grid.Col span="content">
+        <img src={postDetail.image} />
+      </Grid.Col>
+      <Grid.Col span={2}>
+        <p>
+          <b>Author: </b>
+          {postDetail.author}
+        </p>
+        <p>
+          <b>Title: </b>
+          {postDetail.title}
+        </p>
+        <p>
+          <b>Category: </b>
+          {postDetail.category}
+        </p>
+        <p>
+          <b>Content: </b>
+          {postDetail.content}
+        </p>
+      </Grid.Col>
+    </Grid>
   );
 }
 
