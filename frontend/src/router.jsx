@@ -38,6 +38,14 @@ export const Router = () => {
       <Route element={<Layout />}>
         <Route path="login" element={<LoginPage />} />
         <Route
+          path="/posts/create"
+          element={
+            <ProtectedRoute isAllowed={!!authCheck}>
+              <CreatePostPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="posts"
           element={
             <ProtectedRoute isAllowed={!!authCheck}>

@@ -1,4 +1,4 @@
-import { Grid } from "@mantine/core";
+import { Button, Grid } from "@mantine/core";
 import DOMAIN from "../../services/endpoint";
 import { useLoaderData } from "react-router-dom";
 import axios from "axios";
@@ -27,6 +27,7 @@ function PostDetailsPage() {
           <b>Content: </b>
           {postDetail.content}
         </p>
+        {postDetail.canEdit ? <Button>Edit</Button> : <></>}
       </Grid.Col>
     </Grid>
   );

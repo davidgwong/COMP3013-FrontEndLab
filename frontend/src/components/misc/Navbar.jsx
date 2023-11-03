@@ -12,7 +12,6 @@ import { IconSun, IconMoon } from "@tabler/icons-react";
 import cx from "clsx";
 import classes from "./NavBar.module.css";
 import { useLocalStorage, useDisclosure } from "@mantine/hooks";
-import { MantineLogo } from "@mantine/ds";
 
 const Navbar = () => {
   const { logoutService, user } = useBoundStore((state) => state);
@@ -60,15 +59,27 @@ const Navbar = () => {
               </NavLink>
 
               {!!user && (
-                <NavLink
-                  to="posts"
-                  className={({ isActive }) =>
-                    isActive ? classes.active : classes.link
-                  }
-                >
-                  {" "}
-                  Posts
-                </NavLink>
+                <>
+                  <NavLink
+                    to="posts"
+                    end
+                    className={({ isActive }) =>
+                      isActive ? classes.active : classes.link
+                    }
+                  >
+                    {" "}
+                    Posts
+                  </NavLink>
+                  <NavLink
+                    to="posts/create"
+                    className={({ isActive }) =>
+                      isActive ? classes.active : classes.link
+                    }
+                  >
+                    {" "}
+                    Create
+                  </NavLink>
+                </>
               )}
 
               {!!user ? (
@@ -132,15 +143,27 @@ const Navbar = () => {
             </NavLink>
 
             {!!user && (
-              <NavLink
-                to="posts"
-                className={({ isActive }) =>
-                  isActive ? classes.active : classes.link
-                }
-              >
-                {" "}
-                Posts
-              </NavLink>
+              <>
+                <NavLink
+                  to="posts"
+                  end
+                  className={({ isActive }) =>
+                    isActive ? classes.active : classes.link
+                  }
+                >
+                  {" "}
+                  Posts
+                </NavLink>
+                <NavLink
+                  to="posts/create"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : classes.link
+                  }
+                >
+                  {" "}
+                  Create
+                </NavLink>
+              </>
             )}
 
             {!!user ? (

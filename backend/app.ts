@@ -53,7 +53,15 @@ app.get("/api/posts", async (req, res) => {
 app.get("/api/posts/:id", (req, res) => {
   const id = Number(req.params.id);
   const post = posts.find((obj) => obj.id === id);
+  const token = req.headers.authorization?.split(" ")[1];
+
+  let canEdit = false;
+
   if (post) {
+    if (token) {
+      const decoded = jwt.decode(token, { json: true });
+      if (decoded && decoded.id == post.id) canEdit = true;
+    }
     const author = findUserById(post.userId).email.split("@")[0];
     const output = {
       author: author,
@@ -61,6 +69,7 @@ app.get("/api/posts/:id", (req, res) => {
       category: post.category,
       content: post.content,
       image: post.image,
+      canEdit: canEdit,
     };
     return res.json(output);
   }
