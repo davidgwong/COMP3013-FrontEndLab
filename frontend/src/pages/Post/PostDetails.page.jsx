@@ -1,10 +1,20 @@
-import { Button, Grid } from "@mantine/core";
+import { NavLink } from "react-router-dom";
+import { Grid } from "@mantine/core";
 import DOMAIN from "../../services/endpoint";
 import { useLoaderData } from "react-router-dom";
 import axios from "axios";
+import { useLocalStorage, useDisclosure } from "@mantine/hooks";
+import classes from "./PostDetails.page.module.css";
 
 function PostDetailsPage() {
   const postDetail = useLoaderData();
+  const [colorScheme, setColorScheme] = useLocalStorage({
+    key: "mantine-color-scheme",
+    defaultValue: "light",
+    getInitialValueInEffect: true,
+  });
+
+  const editPostLink = "/posts/" + postDetail.id + "/edit";
   return (
     <Grid justify="center">
       <Grid.Col span="content">
@@ -27,7 +37,18 @@ function PostDetailsPage() {
           <b>Content: </b>
           {postDetail.content}
         </p>
-        {postDetail.canEdit ? <Button>Edit</Button> : <></>}
+        {postDetail.canEdit ? (
+          <NavLink
+            to={editPostLink}
+            className={
+              colorScheme === "light" ? classes.logoLight : classes.logoDark
+            }
+          >
+            Edit
+          </NavLink>
+        ) : (
+          <></>
+        )}
       </Grid.Col>
     </Grid>
   );

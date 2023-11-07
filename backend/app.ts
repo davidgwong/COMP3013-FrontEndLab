@@ -70,11 +70,16 @@ app.get("/api/posts/:id", (req, res) => {
       content: post.content,
       image: post.image,
       canEdit: canEdit,
+      id: post.id,
     };
     return res.json(output);
   }
   return res.json(post);
 });
+
+// app.get("/api/posts/:id/edit", (req, res) => {
+//   console.log("Edit page " + req.params.id);
+// });
 
 /**
  * Problems with this:
