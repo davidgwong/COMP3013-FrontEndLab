@@ -31,14 +31,27 @@ export const posts = [
   },
 ];
 
+let nextPostId = 3;
+
 export const addPost = (post: any) => {
   //  Issues:
   //  *     The request body contains the title, category, and image,
   //  *     but the addPost function needs to add a unique id
   //  *     and the id of the currently logged in user to the post.
-  post.id = 3;
-  post.userId = 2;
+  post.id = nextPostId;
+  nextPostId++;
   posts.push(post);
+};
+
+export const editPost = (updatedPost: any) => {
+  const updatedPostIndex = posts.findIndex(post => post.id === updatedPost.id);
+
+  if (updatedPostIndex !== -1) {
+    posts[updatedPostIndex].title = updatedPost.title;
+    posts[updatedPostIndex].category = updatedPost.category;
+    posts[updatedPostIndex].content = updatedPost.content;
+    posts[updatedPostIndex].image = updatedPost.image;
+  }
 };
 
 export const verifyUser = (email: string, password: string) => {

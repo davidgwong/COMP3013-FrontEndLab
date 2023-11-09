@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Grid } from "@mantine/core";
+import { Grid, Image } from "@mantine/core";
 import DOMAIN from "../../services/endpoint";
 import { useLoaderData } from "react-router-dom";
 import axios from "axios";
@@ -18,7 +18,12 @@ function PostDetailsPage() {
   return (
     <Grid justify="center">
       <Grid.Col span="content">
-        <img src={postDetail.image} />
+        <Image
+          height={504}
+          radius="md"
+          src={postDetail.image}
+          withPlaceholder
+        />
       </Grid.Col>
       <Grid.Col span={2}>
         <p>
@@ -38,12 +43,7 @@ function PostDetailsPage() {
           {postDetail.content}
         </p>
         {postDetail.canEdit ? (
-          <NavLink
-            to={editPostLink}
-            className={
-              colorScheme === "light" ? classes.logoLight : classes.logoDark
-            }
-          >
+          <NavLink to={editPostLink} className={classes.active}>
             Edit
           </NavLink>
         ) : (

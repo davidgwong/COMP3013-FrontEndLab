@@ -9,6 +9,7 @@ import {
   addPost,
   posts,
   sleep,
+  editPost,
 } from "./fakedb";
 
 const port = 8085;
@@ -60,11 +61,12 @@ app.get("/api/posts/:id", (req, res) => {
   if (post) {
     if (token) {
       const decoded = jwt.decode(token, { json: true });
-      if (decoded && decoded.id == post.id) canEdit = true;
+      if (decoded && decoded.id == post.userId) canEdit = true;
     }
     const author = findUserById(post.userId).email.split("@")[0];
     const output = {
       author: author,
+      userId: post.userId,
       title: post.title,
       category: post.category,
       content: post.content,
@@ -76,6 +78,12 @@ app.get("/api/posts/:id", (req, res) => {
   }
   return res.json(post);
 });
+
+app.post("/api/posts/:id", (req, res) => {
+  const incomingEdits = req.body;
+  editPost(incomingEdits);
+  res.status(200).json({ success: true});
+})
 
 /**
  * Problems with this:

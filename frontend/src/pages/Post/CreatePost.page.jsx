@@ -3,8 +3,10 @@ import DOMAIN from "../../services/endpoint";
 import axios from "axios";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
+import useBoundStore from "../../store/Store";
 
 function CreatePostPage() {
+  const { user } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const form = useForm({
     initialValues: {
@@ -12,6 +14,7 @@ function CreatePostPage() {
       category: "",
       image: "",
       content: "",
+      userId: user.id,
     },
   });
 

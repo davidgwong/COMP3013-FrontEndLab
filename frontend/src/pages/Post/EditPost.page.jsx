@@ -9,45 +9,45 @@ import { useState } from "react";
 function EditPostPage() {
   const postDetails = useLoaderData();
   const navigate = useNavigate();
-  const form = useForm();
 
   const handleSubmit = async (values) => {
-    const res = await axios.post(`${DOMAIN}/api/posts`, values);
+    const res = await axios.post(`${DOMAIN}/api/posts/:id`, values);
     if (res?.data.success) {
       navigate("/posts");
     }
   };
-  console.log(postDetails);
-  const [title, setTitle] = useState(postDetails.title);
+
+  const form = useForm({
+    initialValues: {
+      title: postDetails.title,
+      category: postDetails.category,
+      image: postDetails.image,
+      content: postDetails.content,
+      id: postDetails.id,
+    },
+  });
 
   return (
     <Box maw={300} mx="auto">
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <TextInput
-          label="Title"
-          {...form.getInputProps("title")}
-          value={postDetails.title}
-        />
+        <TextInput label="Title" {...form.getInputProps("title")} />
 
         <TextInput
           label="Category"
           {...form.getInputProps("category")}
-          value={postDetails.category}
         />
         <TextInput
           label="Image"
           {...form.getInputProps("image")}
-          value={postDetails.image}
         />
 
         <Textarea
           label="Content"
           {...form.getInputProps("content")}
-          value={postDetails.content}
         />
 
         <Group position="right" mt="md">
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Update</Button>
         </Group>
       </form>
     </Box>
@@ -55,7 +55,6 @@ function EditPostPage() {
 }
 
 export const editPostDetailsLoader = async ({ params }) => {
-  // do something with this
   const res = await axios.get(`${DOMAIN}/api/posts/${params.id}`);
   return res.data;
 };
