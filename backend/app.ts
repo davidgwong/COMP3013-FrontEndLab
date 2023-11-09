@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 import {
@@ -16,6 +16,20 @@ const port = 8085;
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = parseToken(authHeader, res);
+    const decodedUser = jwt.verify(token, "secret");
+    const user = findUserById((decodedUser as IDecodedUser).id);
+    if (!!user) {
+      next();
+    } else res.status(401).json({ message: "Unauthorized" });
+  } catch (error) {
+    res.status(401).json({ error });
+  }
+}
 
 // TODO: Obviously use a more secure signing key than "secret"
 app.post("/api/user/login", (req, res) => {
@@ -43,7 +57,7 @@ app.post("/api/user/validation", (req, res) => {
   }
 });
 
-app.get("/api/posts", async (req, res) => {
+app.get("/api/posts", ensureAuthenticated, async (req, res) => {
   // Sleep delay goes here
   sleep(500).then(() => {
     return res.json(posts);
@@ -51,7 +65,7 @@ app.get("/api/posts", async (req, res) => {
 });
 
 // ⭐️ TODO: Implement this yourself
-app.get("/api/posts/:id", (req, res) => {
+app.get("/api/posts/:id", ensureAuthenticated, (req, res) => {
   const id = Number(req.params.id);
   const post = posts.find((obj) => obj.id === id);
   const token = req.headers.authorization?.split(" ")[1];
@@ -79,11 +93,11 @@ app.get("/api/posts/:id", (req, res) => {
   return res.json(post);
 });
 
-app.post("/api/posts/:id", (req, res) => {
+app.post("/api/posts/:id", ensureAuthenticated, (req, res) => {
   const incomingEdits = req.body;
   editPost(incomingEdits);
-  res.status(200).json({ success: true});
-})
+  res.status(200).json({ success: true });
+});
 
 /**
  * Problems with this:
@@ -95,7 +109,7 @@ app.post("/api/posts/:id", (req, res) => {
  *     What if you make a request to this route with a valid token but
  *     with an empty/incorrect payload (post)
  */
-app.post("/api/posts", (req, res) => {
+app.post("/api/posts", ensureAuthenticated, (req, res) => {
   const incomingPost = req.body;
   addPost(incomingPost);
   res.status(200).json({ success: true });
