@@ -13,7 +13,7 @@ function EditPostPage() {
   const handleSubmit = async (values) => {
     const res = await axios.post(`${DOMAIN}/api/posts/:id`, values);
     if (res?.data.success) {
-      navigate("/posts");
+      navigate("/posts/" + values.id);
     }
   };
 
@@ -32,19 +32,10 @@ function EditPostPage() {
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput label="Title" {...form.getInputProps("title")} />
 
-        <TextInput
-          label="Category"
-          {...form.getInputProps("category")}
-        />
-        <TextInput
-          label="Image"
-          {...form.getInputProps("image")}
-        />
+        <TextInput label="Category" {...form.getInputProps("category")} />
+        <TextInput label="Image" {...form.getInputProps("image")} />
 
-        <Textarea
-          label="Content"
-          {...form.getInputProps("content")}
-        />
+        <Textarea label="Content" {...form.getInputProps("content")} />
 
         <Group position="right" mt="md">
           <Button type="submit">Update</Button>
